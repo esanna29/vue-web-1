@@ -8,6 +8,8 @@ export const buttonVariants = cva(
   {
     variants: {
       variant: {
+        domus:
+  "bg-domus-cyan text-white hover:bg-domus-cyan/70 md:py-5 md:px-6 md:text-lg",
         default:
           "bg-primary text-primary-foreground hover:bg-primary/90",
         destructive:

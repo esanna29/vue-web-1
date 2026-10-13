@@ -26,43 +26,43 @@ const scrollToSection = (sectionId: string) => {
 
 <template>
   <div class="batman">
-<div class="extra-nav">
+<nav class="extra-nav flex flex-col sm:flex-row justify-between px-3">
   <RouterLink to="/">
     <House class="icon-home" />
   </RouterLink>
   <NavigationMenu>
-  <NavigationMenuList>
+  <NavigationMenuList class="flex flex-col sm:flex-row">
     <NavigationMenuItem>
       <a href="#" @click.prevent="scrollToSection('#')">
-        <NavigationMenuLink :class="navigationMenuTriggerStyle()">
+       <NavigationMenuLink :class="[navigationMenuTriggerStyle(), 'text-md hover:bg-brand-purple hover:text-white transition-colors']">
   Portada
 </NavigationMenuLink>
       </a>
     </NavigationMenuItem>
  <NavigationMenuItem>
   <a href="#vehiculis" @click.prevent="scrollToSection('#vehiculis')">
-    <NavigationMenuLink :class="navigationMenuTriggerStyle()">
-      Vehículos
-    </NavigationMenuLink>
+    <NavigationMenuLink :class="[navigationMenuTriggerStyle(), 'text-md hover:bg-brand-purple hover:text-white transition-colors']">
+  Vehículos
+</NavigationMenuLink>
   </a>
 </NavigationMenuItem>
 <NavigationMenuItem>
   <a href="#videre" @click.prevent="scrollToSection('#videre')">
-    <NavigationMenuLink :class="navigationMenuTriggerStyle()">
-      Imágenes
-    </NavigationMenuLink>
+    <NavigationMenuLink :class="[navigationMenuTriggerStyle(), 'text-md hover:bg-brand-purple hover:text-white transition-colors']">
+  Imágenes
+</NavigationMenuLink>
   </a>
 </NavigationMenuItem>
  <NavigationMenuItem>
   <a href="#contactus" @click.prevent="scrollToSection('#contactus')">
-    <NavigationMenuLink :class="navigationMenuTriggerStyle()">
-      Contacto
-    </NavigationMenuLink>
+    <NavigationMenuLink :class="[navigationMenuTriggerStyle(), 'text-md hover:bg-brand-purple hover:text-white transition-colors']">
+  Contacto
+</NavigationMenuLink>
   </a>
 </NavigationMenuItem>
   </NavigationMenuList>
 </NavigationMenu>
-</div>
+</nav>
     <header class="titulus">
   <h1>Batman</h1>
   <div id="titulus-batman" class="titulus-img"></div>
@@ -110,6 +110,13 @@ const scrollToSection = (sectionId: string) => {
   max-width: 510px;
   margin: 0 auto;
   padding: 4rem 0;
+  display: flex;
+  flex-direction: column;
+}
+.vehiculis-arca {
+  order: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .vehiculis-titulus {
@@ -117,25 +124,45 @@ const scrollToSection = (sectionId: string) => {
   font-size: 2rem;
   background-color: rgba(0, 0, 0, 0.7);
   color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .item {
   padding: 1.5rem 0;
   height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.item > img {
+  width: 450px;
 }
 
 .unus {
   background-color: rgba(220, 220, 220, 0.2) ; 
+  order: 2;
 }
 
 .duo {
   background-color: rgba(220, 220, 220, 0.8);
+  order: 1;
 }
 
 .tribus {
   background-color: rgba(220, 220, 220, 0.8);
+  order: 3;
 }
  
+.notitia {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .notitia > small {
   font-weight: bold;
   padding: 1rem;
@@ -210,6 +237,41 @@ const scrollToSection = (sectionId: string) => {
 @media (min-width: 768px) {
   .titulus > p {
     display: block;
+  }
+}
+@media (min-width: 640px) {
+  #vehiculis {
+    max-width: 576px;
+  }
+}
+
+@media (min-width: 768px) {
+  #vehiculis {
+    max-width: 900px;
+  }
+
+  .item {
+    flex-direction: row;
+    height: 300px;
+  }
+
+  .unus > img {
+  order: -1;
+}
+}
+
+@media (min-width: 1024px) {
+  #vehiculis {
+    max-width: 1280px;
+  }
+
+  .vehiculis-arca {
+    flex-direction: row;
+  }
+
+  .item {
+    height: 450px;
+    flex-direction: column;
   }
 }
 </style>
