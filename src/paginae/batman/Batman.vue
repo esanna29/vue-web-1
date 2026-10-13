@@ -10,30 +10,18 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 
-import { Card, CardContent } from '@/components/ui/card'
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel'
-
-import Autoplay from 'embla-carousel-autoplay'
-
-const scrollToSection = (sectionId: string) => {
-  if (sectionId === "#") {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    return;
-  }
-
-  const element = document.querySelector<HTMLElement>(sectionId);
-
-  if (element) {
-    element.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-};
-const photos = ['justice', 'arkham']
+import CarrusImaginum from '@/components/CarrusImaginum.vue'
+import { scrollToSection } from '@/utils/scrollToSection'
+const photos = [
+  'justice',
+  'arkham',
+  'superman',
+  'varios',
+  'villana',
+  'villano',
+  'grupo',
+  'robin',
+]
 </script>
 
 <template>
@@ -118,25 +106,10 @@ const photos = ['justice', 'arkham']
   id="videre"
   class="flex w-full justify-center min-h-[50vh] lg:min-h-[95vh] items-center bg-gray-900"
 >
-<Carousel
-  class="w-full max-w-md md:max-w-2xl lg:max-w-4xl"
-  :opts="{ loop: true }"
-  :plugins="[Autoplay({ delay: 2000 })]"
->
-  <CarouselContent>
-    <CarouselItem v-for="photo in photos" :key="photo">
-      <div class="p-1">
-        <Card class="bg-gray-900 border-none">
-          <CardContent class="flex aspect-4/3 items-center justify-center p-6">
-            <img :src="`/imagines/batman/${photo}.jpg`" :alt="photo" class="w-full h-full object-cover" />
-          </CardContent>
-        </Card>
-      </div>
-    </CarouselItem>
-  </CarouselContent>
-  <CarouselPrevious class="hidden md:flex justify-center items-center bg-gray-900 text-white" />
-<CarouselNext class="hidden md:flex justify-center items-center bg-gray-900 text-white" />
-</Carousel>
+<CarrusImaginum
+  :photos="photos"
+  base-path="/imagines/batman"
+/>
 </section>
   </div>
 </template>
