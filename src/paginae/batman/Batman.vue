@@ -3,6 +3,17 @@ import CarrusImaginum from '@/components/CarrusImaginum.vue'
 import NavigatorPrimarius from '@/components/NavigatorPrimarius.vue'
 import { scrollToSection } from '@/utils/scrollToSection'
 import { useMouseMotio } from '@/composables/useMouseMotio'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 const { mousePositione, cumMouseMove, cumMouseLeave } = useMouseMotio()
 
@@ -79,34 +90,36 @@ const menuItems = [
             </p>
             <small>Fabricado en 2005</small>
           </div>
-          <img src="/imagines/batman/avion.jpg" />
+
+          <img src="/imagines/batman/avion.jpg" alt="Avión de Batman" />
         </div>
 
         <div class="item duo">
           <div class="notitia">
             <h2>Moto</h2>
             <p>
-              Nulla aliquip cupidatat voluptate veniam nostrud aliquip sit
-              enim officia. Sit eu pariatur officia qui dolor adipisicing
-              cupidatat. Sit consectetur et eu ut esse laboris nulla.
+              Nulla aliquip cupidatat voluptate veniam nostrud aliquip sit enim
+              officia. Sit eu pariatur officia qui dolor adipisicing cupidatat.
+              Sit consectetur et eu ut esse laboris nulla.
             </p>
             <small>Fabricado en 2006</small>
           </div>
-          <img src="/imagines/batman/moto.jpg" />
+
+          <img src="/imagines/batman/moto.jpg" alt="Moto de Batman" />
         </div>
 
         <div class="item tribus">
           <div class="notitia">
             <h2>Coche</h2>
             <p>
-              Irure adipisicing est minim eu ad dolor. Eu ea commodo pariatur
-              ut occaecat in cupidatat reprehenderit ut laborum duis. Sunt
-              minim ex fugiat reprehenderit. Lorem consectetur reprehenderit
-              commodo non
+              Irure adipisicing est minim eu ad dolor. Eu ea commodo pariatur ut
+              occaecat in cupidatat reprehenderit ut laborum duis. Sunt minim ex
+              fugiat reprehenderit. Lorem consectetur reprehenderit commodo non
             </p>
             <small>Fabricado en 2007</small>
           </div>
-          <img src="/imagines/batman/car.jpg" />
+
+          <img src="/imagines/batman/car.jpg" alt="Coche de Batman" />
         </div>
       </div>
 
@@ -119,11 +132,110 @@ const menuItems = [
       id="videre"
       class="flex w-full justify-center min-h-[50vh] lg:min-h-[95vh] items-center bg-gray-900"
     >
-      <CarrusImaginum
-        :photos="photos"
-        base-path="/imagines/batman"
-      />
+      <CarrusImaginum :photos="photos" base-path="/imagines/batman" />
     </section>
+
+    <section id="contactus" class="w-full py-12 bg-gray-100">
+      <div class="container mx-auto max-w-5xl px-4">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">
+          Contacta con Batman
+        </h2>
+
+        <div class="flex flex-col lg:flex-row gap-8 items-center">
+          <!-- Mappa -->
+          <div
+            class="hidden lg:block w-full lg:w-1/2 rounded-lg overflow-hidden shadow-lg"
+          >
+            <div class="aspect-square">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3079.362755252682!2d-0.34403229999998675!3d39.48372270000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd60488259073375%3A0xfb410ba707ca33c9!2sUPV%20-%20Facultat%20de%20Belles%20Arts!5e0!3m2!1sit!2ses!4v1792657771738!5m2!1sit!2ses"
+                class="w-full h-full rounded-lg"
+                style="border: 0"
+                title="UPV - Facultat de Belles Arts"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin"
+              ></iframe>
+            </div>
+          </div>
+
+          <!-- Formulario -->
+          <div class="w-full max-w-md mx-auto lg:max-w-none lg:w-1/2">
+            <form
+              class="space-y-6 bg-white p-8 rounded-lg shadow-lg aspect-square"
+              @submit.prevent
+            >
+              <div class="space-y-2">
+                <Label for="nomen">Nombre</Label>
+                <Input id="nomen" type="text" placeholder="Tu nombre" />
+              </div>
+
+              <div class="space-y-2">
+                <Label for="cognomen">Apellidos</Label>
+                <Input
+                  id="cognomen"
+                  type="text"
+                  placeholder="Tus apellidos"
+                />
+              </div>
+
+              <div class="space-y-2">
+                <Select>
+                  <SelectTrigger class="w-[180px]">
+                    <SelectValue placeholder="Select a fruit" />
+                  </SelectTrigger>
+
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Fruits</SelectLabel>
+                      <SelectItem value="apple">Apple</SelectItem>
+                      <SelectItem value="banana">Banana</SelectItem>
+                      <SelectItem value="blueberry">Blueberry</SelectItem>
+                      <SelectItem value="grapes">Grapes</SelectItem>
+                      <SelectItem value="pineapple">Pineapple</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div class="space-y-2">
+                Poner un calendario para la fecha de la misión
+              </div>
+
+              <div class="space-y-2">
+                Poner un input para la ciudad
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="w-full bg-gray-900 text-gray-300 py-12">
+      <div
+        class="flex flex-col md:flex-row md:justify-around gap-8 max-w-3xl mx-auto px-4"
+      >
+        <div class="space-y-4 text-center md:text-left">
+          <h3 class="text-xl font-bold text-white">
+            Información de Contacto
+          </h3>
+
+          <div class="space-y-2">
+            <p>+1 (555) 123-4567</p>
+            <p>batman@wayneenterprises.com</p>
+            <p>Wayne Manor, Gotham City</p>
+          </div>
+        </div>
+
+        <div class="space-y-4 text-center md:text-left text-gray-400">
+          <h3 class="text-xl font-bold text-white">Síguenos</h3>
+          <p>
+            Icono de X - Icono de Instagram - Icono de LinkedIn -
+            Icono de MessageCircle
+          </p>
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -205,7 +317,7 @@ const menuItems = [
 .titulus-img {
   background-size: 100% 100%;
   background-position: center center;
-  background-image: url("/imagines/batman/batman.jpg");
+  background-image: url('/imagines/batman/batman.jpg');
   aspect-ratio: 8 / 9;
 }
 
@@ -236,12 +348,6 @@ const menuItems = [
   display: none;
 }
 
-@media (min-width: 768px) {
-  .titulus > p {
-    display: block;
-  }
-}
-
 @media (min-width: 640px) {
   #vehiculis {
     max-width: 576px;
@@ -249,6 +355,10 @@ const menuItems = [
 }
 
 @media (min-width: 768px) {
+  .titulus > p {
+    display: block;
+  }
+
   #vehiculis {
     max-width: 900px;
   }
