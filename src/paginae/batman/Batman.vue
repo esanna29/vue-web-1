@@ -1,3 +1,4 @@
+
 <script setup lang="ts">
 import { House, Menu } from '@lucide/vue'
 
@@ -6,14 +7,14 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu';
+} from '@/components/ui/navigation-menu'
 
 import CarrusImaginum from '@/components/CarrusImaginum.vue'
 import { scrollToSection } from '@/utils/scrollToSection'
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Toggle } from '@/components/ui/toggle'
+
 const photos = [
   'justice',
   'arkham',
@@ -24,7 +25,19 @@ const photos = [
   'grupo',
   'robin',
 ]
+
+interface Coordinatas {
+  x: number
+  y: number
+}
+
 const videreMenu = ref<boolean>(true)
+
+const mousePositione = ref<Coordinatas>({
+  x: 0,
+  y: 0,
+})
+
 const handleResize = () => {
   videreMenu.value = window.innerWidth >= 640
 }
@@ -37,104 +50,190 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
 })
+
+const cumMouseMove = (e: MouseEvent) => {
+  const rect = (e.target as HTMLElement).getBoundingClientRect()
+
+  const centerX = rect.left + rect.width / 2
+  const centerY = rect.top + rect.height / 2
+
+  const mouseX = e.clientX - rect.left
+  const mouseY = e.clientY - rect.top
+
+  mousePositione.value = {
+    x: (centerX - mouseX) * 0.1,
+    y: (centerY - mouseY) * 0.1,
+  }
+}
+
+const cumMouseLeave = () => {
+  mousePositione.value = {
+    x: 0,
+    y: 0,
+  }
+}
 </script>
 
 <template>
   <div class="batman">
- <Toggle
-  class="fixed top-2 right-4 z-50 bg-slate-500 sm:hidden"
-  @click="videreMenu = !videreMenu"
-  aria-label="Mostra o nascondi menu"
->
- <Menu :size="46" />
-</Toggle>
-<nav 
-v-if="videreMenu"
-class="extra-nav flex flex-col sm:flex-row justify-between px-3">
-  <RouterLink to="/">
-    <House class="icon-home" />
-  </RouterLink>
-  <NavigationMenu>
-  <NavigationMenuList class="flex flex-col sm:flex-row">
-    <NavigationMenuItem>
-      <a href="#" @click.prevent="scrollToSection('#')">
-       <NavigationMenuLink :class="[navigationMenuTriggerStyle(), 'text-md hover:bg-brand-purple hover:text-white transition-colors']">
-  Portada
-</NavigationMenuLink>
-      </a>
-    </NavigationMenuItem>
- <NavigationMenuItem>
-  <a href="#vehiculis" @click.prevent="scrollToSection('#vehiculis')">
-    <NavigationMenuLink :class="[navigationMenuTriggerStyle(), 'text-md hover:bg-brand-purple hover:text-white transition-colors']">
-  Vehículos
-</NavigationMenuLink>
-  </a>
-</NavigationMenuItem>
-<NavigationMenuItem>
-  <a href="#videre" @click.prevent="scrollToSection('#videre')">
-    <NavigationMenuLink :class="[navigationMenuTriggerStyle(), 'text-md hover:bg-brand-purple hover:text-white transition-colors']">
-  Imágenes
-</NavigationMenuLink>
-  </a>
-</NavigationMenuItem>
- <NavigationMenuItem>
-  <a href="#contactus" @click.prevent="scrollToSection('#contactus')">
-    <NavigationMenuLink :class="[navigationMenuTriggerStyle(), 'text-md hover:bg-brand-purple hover:text-white transition-colors']">
-  Contacto
-</NavigationMenuLink>
-  </a>
-</NavigationMenuItem>
-  </NavigationMenuList>
-</NavigationMenu>
-</nav>
+    <Toggle
+      class="fixed top-2 right-4 z-50 bg-slate-500 sm:hidden"
+      @click="videreMenu = !videreMenu"
+      aria-label="Mostra o nascondi menu"
+    >
+      <Menu :size="46" />
+    </Toggle>
+
+    <nav
+      v-if="videreMenu"
+      class="extra-nav flex flex-col sm:flex-row justify-between px-3"
+    >
+      <RouterLink to="/">
+        <House class="icon-home" />
+      </RouterLink>
+
+      <NavigationMenu>
+        <NavigationMenuList class="flex flex-col sm:flex-row">
+          <NavigationMenuItem>
+            <a href="#" @click.prevent="scrollToSection('#')">
+              <NavigationMenuLink
+                :class="[
+                  navigationMenuTriggerStyle(),
+                  'text-md hover:bg-brand-purple hover:text-white transition-colors',
+                ]"
+              >
+                Portada
+              </NavigationMenuLink>
+            </a>
+          </NavigationMenuItem>
+
+          <NavigationMenuItem>
+            <a
+              href="#vehiculis"
+              @click.prevent="scrollToSection('#vehiculis')"
+            >
+              <NavigationMenuLink
+                :class="[
+                  navigationMenuTriggerStyle(),
+                  'text-md hover:bg-brand-purple hover:text-white transition-colors',
+                ]"
+              >
+                Vehículos
+              </NavigationMenuLink>
+            </a>
+          </NavigationMenuItem>
+
+          <NavigationMenuItem>
+            <a href="#videre" @click.prevent="scrollToSection('#videre')">
+              <NavigationMenuLink
+                :class="[
+                  navigationMenuTriggerStyle(),
+                  'text-md hover:bg-brand-purple hover:text-white transition-colors',
+                ]"
+              >
+                Imágenes
+              </NavigationMenuLink>
+            </a>
+          </NavigationMenuItem>
+
+          <NavigationMenuItem>
+            <a
+              href="#contactus"
+              @click.prevent="scrollToSection('#contactus')"
+            >
+              <NavigationMenuLink
+                :class="[
+                  navigationMenuTriggerStyle(),
+                  'text-md hover:bg-brand-purple hover:text-white transition-colors',
+                ]"
+              >
+                Contacto
+              </NavigationMenuLink>
+            </a>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </nav>
+
     <header class="titulus">
-  <h1>Batman</h1>
-  <div id="titulus-batman" class="titulus-img"></div>
-  <p>Él puede tomar la decision que nadie más puede, la decisión correcta</p>
-</header>
-<section id="vehiculis">
-  <div class="vehiculis-arca">
-    <div class="item unus">
-        <div class="notitia">
-          <h2>Avión</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vehicula vulputate elit eget fermentum. Ut laoreet ante lacus. Quisque ut tincidunt metus. Curabitur congue, arcu nec tempus sodales, neque sem ultrices mauris, eu tincidunt nibh nibh eu massa. Aenean rhoncus quis nibh ac facilisis.</p>
-          <small>Fabricado en 2005</small>
+      <h1>Batman</h1>
+
+      <div
+        id="titulus-batman"
+        class="titulus-img"
+        @mousemove="cumMouseMove"
+        @mouseleave="cumMouseLeave"
+        :style="{
+          backgroundPositionX: `calc(50% + ${mousePositione.x}px)`,
+          backgroundPositionY: `calc(50% + ${mousePositione.y}px)`,
+          transition: 'background-position 0.1s ease-out',
+        }"
+      ></div>
+
+      <p>
+        Él puede tomar la decision que nadie más puede, la decisión correcta
+      </p>
+    </header>
+
+    <section id="vehiculis">
+      <div class="vehiculis-arca">
+        <div class="item unus">
+          <div class="notitia">
+            <h2>Avión</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+              vehicula vulputate elit eget fermentum. Ut laoreet ante lacus.
+              Quisque ut tincidunt metus. Curabitur congue, arcu nec tempus
+              sodales, neque sem ultrices mauris, eu tincidunt nibh nibh eu
+              massa. Aenean rhoncus quis nibh ac facilisis.
+            </p>
+            <small>Fabricado en 2005</small>
+          </div>
+          <img src="/imagines/batman/avion.jpg" />
         </div>
-        <img src="/imagines/batman/avion.jpg"/>
+
+        <div class="item duo">
+          <div class="notitia">
+            <h2>Moto</h2>
+            <p>
+              Nulla aliquip cupidatat voluptate veniam nostrud aliquip sit
+              enim officia. Sit eu pariatur officia qui dolor adipisicing
+              cupidatat. Sit consectetur et eu ut esse laboris nulla.
+            </p>
+            <small>Fabricado en 2006</small>
+          </div>
+          <img src="/imagines/batman/moto.jpg" />
+        </div>
+
+        <div class="item tribus">
+          <div class="notitia">
+            <h2>Coche</h2>
+            <p>
+              Irure adipisicing est minim eu ad dolor. Eu ea commodo pariatur
+              ut occaecat in cupidatat reprehenderit ut laborum duis. Sunt
+              minim ex fugiat reprehenderit. Lorem consectetur reprehenderit
+              commodo non
+            </p>
+            <small>Fabricado en 2007</small>
+          </div>
+          <img src="/imagines/batman/car.jpg" />
+        </div>
       </div>
 
-      <div class="item duo">
-        <div class="notitia">
-          <h2>Moto</h2>
-          <p>Nulla aliquip cupidatat voluptate veniam nostrud aliquip sit enim officia. Sit eu pariatur officia qui dolor adipisicing cupidatat. Sit consectetur et eu ut esse laboris nulla.</p>
-          <small>Fabricado en 2006</small>
-        </div>
-        <img src="/imagines/batman/moto.jpg"/>
+      <div class="vehiculis-titulus">
+        <h1>Vehículos de Batman</h1>
       </div>
-      
-      <div class="item tribus">
-        <div class="notitia">
-          <h2>Coche</h2>
-          <p>Irure adipisicing est minim eu ad dolor. Eu ea commodo pariatur ut occaecat in cupidatat reprehenderit ut laborum duis. Sunt minim ex fugiat reprehenderit. Lorem consectetur reprehenderit commodo non</p>
-          <small>Fabricado en 2007</small>
-        </div>
-        <img src="/imagines/batman/car.jpg"/>
-      </div>
-    </div>
+    </section>
 
-    <div class="vehiculis-titulus">
-      <h1>Vehículos de Batman</h1>
-    </div>
- </section>
- <section
-  id="videre"
-  class="flex w-full justify-center min-h-[50vh] lg:min-h-[95vh] items-center bg-gray-900"
->
-<CarrusImaginum
-  :photos="photos"
-  base-path="/imagines/batman"
-/>
-</section>
+    <section
+      id="videre"
+      class="flex w-full justify-center min-h-[50vh] lg:min-h-[95vh] items-center bg-gray-900"
+    >
+      <CarrusImaginum
+        :photos="photos"
+        base-path="/imagines/batman"
+      />
+    </section>
   </div>
 </template>
 
@@ -146,6 +245,7 @@ class="extra-nav flex flex-col sm:flex-row justify-between px-3">
   display: flex;
   flex-direction: column;
 }
+
 .vehiculis-arca {
   order: 1;
   display: flex;
@@ -153,7 +253,7 @@ class="extra-nav flex flex-col sm:flex-row justify-between px-3">
 }
 
 .vehiculis-titulus {
-  height: 5.5rem; /* 88px */
+  height: 5.5rem;
   font-size: 2rem;
   background-color: rgba(0, 0, 0, 0.7);
   color: white;
@@ -176,7 +276,7 @@ class="extra-nav flex flex-col sm:flex-row justify-between px-3">
 }
 
 .unus {
-  background-color: rgba(220, 220, 220, 0.2) ; 
+  background-color: rgba(220, 220, 220, 0.2);
   order: 2;
 }
 
@@ -189,7 +289,7 @@ class="extra-nav flex flex-col sm:flex-row justify-between px-3">
   background-color: rgba(220, 220, 220, 0.8);
   order: 3;
 }
- 
+
 .notitia {
   display: flex;
   flex-direction: column;
@@ -200,25 +300,29 @@ class="extra-nav flex flex-col sm:flex-row justify-between px-3">
   font-weight: bold;
   padding: 1rem;
 }
- 
+
 .notitia > h2 {
- font-size: 1.7rem; 
- font-weight: 600;
- color: rgba(0, 0, 0, 0.7);
- padding-bottom: 1rem;
-} 
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.7);
+  padding-bottom: 1rem;
+}
+
 .batman {
   font-family: Arial, Helvetica, sans-serif;
 }
+
 .icon-home {
   color: slateblue;
   width: 3rem;
   height: 3rem;
 }
+
 .icon-home:hover {
   color: white;
   background-color: slateblue;
 }
+
 .extra-nav {
   background-color: white;
   opacity: 0.7;
@@ -229,6 +333,7 @@ class="extra-nav flex flex-col sm:flex-row justify-between px-3">
   border-radius: 0 0 1rem 0;
   z-index: 1;
 }
+
 @media (min-width: 640px) {
   .extra-nav {
     width: 100%;
@@ -237,18 +342,21 @@ class="extra-nav flex flex-col sm:flex-row justify-between px-3">
     left: 0;
   }
 }
+
 .titulus-img {
   background-size: 100% 100%;
   background-position: center center;
   background-image: url("/imagines/batman/batman.jpg");
-  min-height: 100vh;
+  aspect-ratio: 8 / 9;
 }
+
 .titulus-img:hover {
   background-size: 115% 115%;
 }
+
 .titulus > h1 {
   position: absolute;
-  top: 63%;
+  top: calc(100vw * 0.5);
   width: 100%;
   text-align: center;
   font-size: 5rem;
@@ -256,9 +364,10 @@ class="extra-nav flex flex-col sm:flex-row justify-between px-3">
   pointer-events: none;
   font-family: batman;
 }
+
 .titulus > p {
   position: absolute;
-  top: 36%;
+  top: calc(100vw * 0.25);
   width: 100%;
   text-align: center;
   font-size: 2rem;
@@ -267,11 +376,13 @@ class="extra-nav flex flex-col sm:flex-row justify-between px-3">
   font-family: batman;
   display: none;
 }
+
 @media (min-width: 768px) {
   .titulus > p {
     display: block;
   }
 }
+
 @media (min-width: 640px) {
   #vehiculis {
     max-width: 576px;
@@ -289,8 +400,8 @@ class="extra-nav flex flex-col sm:flex-row justify-between px-3">
   }
 
   .unus > img {
-  order: -1;
-}
+    order: -1;
+  }
 }
 
 @media (min-width: 1024px) {
