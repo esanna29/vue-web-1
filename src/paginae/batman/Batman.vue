@@ -1,21 +1,30 @@
 <script setup lang="ts">
+import { shallowRef } from 'vue'
+import type { DateValue } from '@internationalized/date'
 import CarrusImaginum from '@/components/CarrusImaginum.vue'
 import NavigatorPrimarius from '@/components/NavigatorPrimarius.vue'
 import { scrollToSection } from '@/utils/scrollToSection'
 import { useMouseMotio } from '@/composables/useMouseMotio'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
 
 const { mousePositione, cumMouseMove, cumMouseLeave } = useMouseMotio()
+
+const dies = shallowRef<DateValue>()
 
 const photos = [
   'justice',
@@ -167,44 +176,72 @@ const menuItems = [
             >
               <div class="space-y-2">
                 <Label for="nomen">Nombre</Label>
-                <Input id="nomen" type="text" placeholder="Tu nombre" />
+                <Input
+                  id="nomen"
+                  name="nomen"
+                  type="text"
+                  placeholder="Tu nombre"
+                  required
+                />
               </div>
 
               <div class="space-y-2">
                 <Label for="cognomen">Apellidos</Label>
                 <Input
                   id="cognomen"
+                  name="cognomen"
                   type="text"
                   placeholder="Tus apellidos"
+                  required
                 />
               </div>
 
               <div class="space-y-2">
-                <Select>
-                  <SelectTrigger class="w-[180px]">
-                    <SelectValue placeholder="Select a fruit" />
+                <Select required>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecciona una misión" />
                   </SelectTrigger>
 
                   <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Fruits</SelectLabel>
-                      <SelectItem value="apple">Apple</SelectItem>
-                      <SelectItem value="banana">Banana</SelectItem>
-                      <SelectItem value="blueberry">Blueberry</SelectItem>
-                      <SelectItem value="grapes">Grapes</SelectItem>
-                      <SelectItem value="pineapple">Pineapple</SelectItem>
-                    </SelectGroup>
+                    <SelectItem value="rescatio">
+                      Rescate de rehenes
+                    </SelectItem>
+
+                    <SelectItem value="investigare">
+                      Investigación criminal
+                    </SelectItem>
+
+                    <SelectItem value="persequi">
+                      Persecución de villanos
+                    </SelectItem>
+
+                    <SelectItem value="defendere">
+                      Defensa de Gotham
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div class="space-y-2">
-                Poner un calendario para la fecha de la misión
+                <Label>Fecha de la misión</Label>
+
+                <Popover>
+                  <PopoverTrigger as-child>
+                    <Button type="button" variant="outline">
+                      <span v-if="dies">
+                        {{ dies.day }}/{{ dies.month }}/{{ dies.year }}
+                      </span>
+                      <span v-else>Selecciona una fecha</span>
+                    </Button>
+                  </PopoverTrigger>
+
+                  <PopoverContent class="w-auto p-0">
+                    <Calendar v-model="dies" />
+                  </PopoverContent>
+                </Popover>
               </div>
 
-              <div class="space-y-2">
-                Poner un input para la ciudad
-              </div>
+              <div>Poner un botón para enviar la solicitud</div>
             </form>
           </div>
         </div>
