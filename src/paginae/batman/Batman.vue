@@ -1,7 +1,17 @@
 <script setup lang="ts">
-import { ref, shallowRef } from 'vue'
+import { h, ref, shallowRef } from 'vue'
 import type { DateValue } from '@internationalized/date'
-import { Loader2 } from '@lucide/vue'
+import {
+  BadgeCheck,
+  Loader2,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Phone,
+  X,
+} from '@lucide/vue'
+import { Icon } from '@iconify/vue'
+import { toast } from 'vue-sonner'
 import CarrusImaginum from '@/components/CarrusImaginum.vue'
 import NavigatorPrimarius from '@/components/NavigatorPrimarius.vue'
 import { scrollToSection } from '@/utils/scrollToSection'
@@ -67,6 +77,27 @@ const menuItems = [
 
 const mittereSubmit = async () => {
   estLoading.value = true
+
+  toast(
+    `Solicitud enviada correctamente
+- Nombre: ${nomen.value} ${cognomen.value}
+- Misión: ${missio.value}
+- Fecha: ${
+      dies.value
+        ? `${dies.value.day}/${dies.value.month}/${dies.value.year}`
+        : 'No especificada'
+    }`,
+    {
+      duration: 4000,
+      position: 'top-right',
+      icon: h(BadgeCheck),
+      style: {
+        background: '#201c3b',
+        color: '#fff',
+        whiteSpace: 'pre-wrap',
+      },
+    },
+  )
 
   await new Promise((resolve) => setTimeout(resolve, 2000))
 
@@ -292,18 +323,47 @@ const mittereSubmit = async () => {
           </h3>
 
           <div class="space-y-2">
-            <p>+1 (555) 123-4567</p>
-            <p>batman@wayneenterprises.com</p>
-            <p>Wayne Manor, Gotham City</p>
+            <p
+              class="flex items-center gap-2 justify-center md:justify-start"
+            >
+              <Phone class="h-4 w-4" />
+              <span>+1 (555) 123-4567</span>
+            </p>
+
+            <p
+              class="flex items-center gap-2 justify-center md:justify-start"
+            >
+              <Mail class="h-4 w-4" />
+              <span>batman@wayneenterprises.com</span>
+            </p>
+
+            <p
+              class="flex items-center gap-2 justify-center md:justify-start"
+            >
+              <MapPin class="h-4 w-4" />
+              <span>Wayne Manor, Gotham City</span>
+            </p>
           </div>
         </div>
 
         <div class="space-y-4 text-center md:text-left text-gray-400">
           <h3 class="text-xl font-bold text-white">Síguenos</h3>
-          <p>
-            Icono de X - Icono de Instagram - Icono de LinkedIn -
-            Icono de MessageCircle
-          </p>
+
+          <div class="flex gap-8 justify-center">
+            <X class="w-10 h-10 hover:text-white" />
+
+            <Icon
+              icon="mdi:instagram"
+              class="w-10 h-10 hover:text-white"
+            />
+
+            <Icon
+              icon="mdi:linkedin"
+              class="w-10 h-10 hover:text-white"
+            />
+
+            <MessageCircle class="w-10 h-10 hover:text-white" />
+          </div>
         </div>
       </div>
     </footer>
