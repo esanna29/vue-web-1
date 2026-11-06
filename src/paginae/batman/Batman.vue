@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { ref, shallowRef } from 'vue'
 import type { DateValue } from '@internationalized/date'
+import { Loader2 } from '@lucide/vue'
 import CarrusImaginum from '@/components/CarrusImaginum.vue'
 import NavigatorPrimarius from '@/components/NavigatorPrimarius.vue'
 import { scrollToSection } from '@/utils/scrollToSection'
@@ -25,6 +26,10 @@ import {
 const { mousePositione, cumMouseMove, cumMouseLeave } = useMouseMotio()
 
 const dies = shallowRef<DateValue>()
+const nomen = ref('')
+const cognomen = ref('')
+const missio = ref('')
+const estLoading = ref(false)
 
 const photos = [
   'justice',
@@ -59,6 +64,25 @@ const menuItems = [
     onClick: () => scrollToSection('#contactus'),
   },
 ]
+
+const mittereSubmit = async () => {
+  estLoading.value = true
+
+  await new Promise((resolve) => setTimeout(resolve, 2000))
+
+  estLoading.value = false
+
+  console.log('Formulario enviado:', {
+    dies: dies.value,
+    nomen: nomen.value,
+    cognomen: cognomen.value,
+    missio: missio.value,
+  })
+
+  nomen.value = ''
+  cognomen.value = ''
+  missio.value = ''
+}
 </script>
 
 <template>
@@ -151,7 +175,6 @@ const menuItems = [
         </h2>
 
         <div class="flex flex-col lg:flex-row gap-8 items-center">
-          <!-- Mappa -->
           <div
             class="hidden lg:block w-full lg:w-1/2 rounded-lg overflow-hidden shadow-lg"
           >
@@ -168,16 +191,16 @@ const menuItems = [
             </div>
           </div>
 
-          <!-- Formulario -->
           <div class="w-full max-w-md mx-auto lg:max-w-none lg:w-1/2">
             <form
               class="space-y-6 bg-white p-8 rounded-lg shadow-lg aspect-square"
-              @submit.prevent
+              @submit.prevent="mittereSubmit"
             >
               <div class="space-y-2">
                 <Label for="nomen">Nombre</Label>
                 <Input
                   id="nomen"
+                  v-model="nomen"
                   name="nomen"
                   type="text"
                   placeholder="Tu nombre"
@@ -189,6 +212,7 @@ const menuItems = [
                 <Label for="cognomen">Apellidos</Label>
                 <Input
                   id="cognomen"
+                  v-model="cognomen"
                   name="cognomen"
                   type="text"
                   placeholder="Tus apellidos"
@@ -197,24 +221,21 @@ const menuItems = [
               </div>
 
               <div class="space-y-2">
-                <Select required>
+                <Select v-model="missio" required>
                   <SelectTrigger>
                     <SelectValue placeholder="Selecciona una misión" />
                   </SelectTrigger>
 
                   <SelectContent>
-                    <SelectItem value="rescatio">
+                    <SelectItem value="rescatare">
                       Rescate de rehenes
                     </SelectItem>
-
                     <SelectItem value="investigare">
                       Investigación criminal
                     </SelectItem>
-
                     <SelectItem value="persequi">
                       Persecución de villanos
                     </SelectItem>
-
                     <SelectItem value="defendere">
                       Defensa de Gotham
                     </SelectItem>
@@ -231,7 +252,9 @@ const menuItems = [
                       <span v-if="dies">
                         {{ dies.day }}/{{ dies.month }}/{{ dies.year }}
                       </span>
-                      <span v-else>Selecciona una fecha</span>
+                      <span v-else class="text-gray-500">
+                        Selecciona una fecha
+                      </span>
                     </Button>
                   </PopoverTrigger>
 
@@ -241,7 +264,18 @@ const menuItems = [
                 </Popover>
               </div>
 
-              <div>Poner un botón para enviar la solicitud</div>
+              <Button
+                type="submit"
+                class="w-full bg-brand-purple hover:bg-brand-purple-dark"
+                :disabled="estLoading"
+              >
+                <Loader2
+                  v-if="estLoading"
+                  class="mr-2 h-4 w-4 animate-spin"
+                />
+                <span v-if="estLoading">Enviando...</span>
+                <span v-else>Enviar Solicitud</span>
+              </Button>
             </form>
           </div>
         </div>
