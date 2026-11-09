@@ -10,7 +10,8 @@ export const buttonVariants = cva(
       variant: {
         domus:
   "bg-domus-cyan text-white hover:bg-domus-cyan/70 md:py-5 md:px-6 md:text-lg",
-        default:
+  tertiarius: "bg-white text-base border border-black hover:bg-simpsons-red focus:bg-simpsons-red rounded-md",      
+  default:
           "bg-primary text-primary-foreground hover:bg-primary/90",
         destructive:
           "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
@@ -31,6 +32,7 @@ export const buttonVariants = cva(
         "icon-xs": "size-6 rounded-md [&_svg:not([class*='size-'])]:size-3",
         "icon-sm": "size-8",
         "icon-lg": "size-10",
+        "elongatis": "h-7.5 py-0.5 px-5",
       },
     },
     defaultVariants: {
