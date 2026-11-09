@@ -1,6 +1,13 @@
 <script lang="ts" setup>
 import LogoSimpsons from '@/components/LogoSimpsons.vue';
 import Button from '@/components/ui/button/Button.vue';
+import { useFavoritosStore } from '@/stores/useFavoritos';
+import { Heart } from '@lucide/vue';
+import { storeToRefs } from 'pinia';
+
+const favoritosStore = useFavoritosStore()
+
+const { totalFavoritos } = storeToRefs(favoritosStore)
 </script>
 
 <template>
@@ -19,6 +26,10 @@ import Button from '@/components/ui/button/Button.vue';
   <Button variant="tertiarius" size="elongatis">
     <RouterLink to="/simpsons/about">Enter</RouterLink>
   </Button>
+  <div class="flex items-center gap-2 text-black">
+  <Heart class="w-7 h-7 fill-simpsons-red text-simpsons-red" />
+  <span>{{ totalFavoritos }}</span>
+</div>
 </div>
     <div class="flex gap-12">
   <img class="object-contain hidden md:block" src="/imagines/simpsons/bart.png" width="280px"/>
